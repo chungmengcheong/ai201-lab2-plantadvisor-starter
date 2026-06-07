@@ -123,6 +123,19 @@ for tool_call in assistant_message.tool_calls:
 
 ```
 [your answer here]
+pseudocode:
+
+craete message list structure # per 'Messages List structure' above
+rounds = 0
+while rounds < MAX_TOOL_ROUNDS
+    call tool  # per 'Initial LLM call' above
+    assistant_message = response.choices[0].message
+    if not assistant_message.tool_calls: # No tool calls — LLM has a final answer
+        return assistant_message.content
+    else:
+        Executing and appending tool results # per 'Executing and appending tool results'
+    rounds += 1
+return f"Unable to complete user request as {MAX_TOOL_ROUNDS} rounds of tool usage has been exceeded" 
 ```
 
 ---
@@ -133,6 +146,7 @@ for tool_call in assistant_message.tool_calls:
 
 ```
 [your answer here]
+response.choices[0].message.content
 ```
 
 ---
@@ -145,15 +159,18 @@ for tool_call in assistant_message.tool_calls:
 
 ```
 Query: "How should I care for my calathea?"
-Round 1 tool call: [tool name, args]
-Round 2 tool call: [tool name, args] (if any)
+  → Tool call: lookup_plant({'plant_name': 'calathea'})
+  ← Result: {"found": true, "plant": {"display_name": "Calathea", "scientific_name": "Calathea ornata", "aliases": ["prayer plant", ...
+
 Final response: [brief description]
+According to the care data for your calathea, this plant prefers low to medium indirect light, consistently moist soil, and high humidity (50%+). It's also sensitive to cold drafts and temperatures below 55°F. To care for your calathea, make sure to water it every 1-2 weeks with filtered, distilled, or rainwater, and fertilize it monthly during the growing season. Also, keep it in an area with high humidity, and avoid direct sunlight, which can damage the plant's leaves. If you experience any issues, such as brown leaf edges or leaf curling, adjust your care routine accordingly.
 ```
 
 **What happens when you ask about a plant that isn't in the database?**
 
 ```
 [describe the behavior you observed]
+I'm sorry, but 'bok choy' was not found in the plant database. I only have information on a limited set of houseplants and it seems that 'bok choy' is not one of them. However, I can tell you that bok choy is a common vegetable that can be grown indoors. It's a type of Chinese cabbage that prefers partial shade, consistent moisture, and cooler temperatures. If you have any specific questions about its care or would like general advice, I'd be happy to help.
 ```
 
 **One thing about the tool call API that surprised you:**

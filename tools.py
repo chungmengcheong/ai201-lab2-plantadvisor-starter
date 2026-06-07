@@ -52,10 +52,25 @@ def lookup_plant(plant_name: str) -> dict:
 
     Before writing code, complete the lookup_plant section of specs/tool-functions-spec.md.
     """
+
+    normalized = plant_name.strip().lower()
+
+    if normalized in _plant_db:
+        return {"found": True, "plant": _plant_db[normalized]}
+
+    for key, value in _plant_db.items():
+        if normalized == value["display_name"].lower():
+            return {"found": True, "plant": value}
+
+    for key, value in _plant_db.items():
+        alias_lower = [alias.lower() for alias in value["aliases"]]
+        if normalized in alias_lower:
+            return {"found": True, "plant": value}
+
     return {
         "found": False,
         "name": plant_name,
-        "message": "Plant lookup not yet implemented. Complete Milestone 1.",
+        "message": f"'{normalized}' was not found in the plant database. Suggest the user try the plant's common name, scientific name, or an alias. Also let them know only the 16 supported plants are available."
     }
 
 

@@ -63,6 +63,24 @@ likely match for clean user input. Aliases are the broadest net, so they go last
 3. Alias match: normalized in [alias.lower() for alias in plant["aliases"]]
 ```
 
+```
+pseudocode:
+normalized = plant_name.strip().lower()
+dict = loads(plants.json)
+
+if input in dict
+    return dict[input]
+
+for key, value in dict.items()
+    if input == item["display_name"]
+        return value
+
+for key, value in dict.items()
+    alias_lower = [alias for alias in plant]
+    if input in alias_lower
+        return value
+```
+
 ---
 
 #### Alias matching approach
@@ -71,7 +89,15 @@ likely match for clean user input. Aliases are the broadest net, so they go last
 
 ```
 [your answer here]
+
+pseudocode:
+
+for key, value in dict.items()
+    alias_lower = [alias for alias in plant]
+    if input in alias_lower
+        return value
 ```
+
 
 ---
 
@@ -81,6 +107,7 @@ likely match for clean user input. Aliases are the broadest net, so they go last
 
 ```
 [your answer here]
+f"'{normalized}' was not found in the plant database. Suggest the user try the plant's common name, scientific name, or an alias. Also let them know only the 16 supported plants are available."
 ```
 
 ---
@@ -92,16 +119,19 @@ likely match for clean user input. Aliases are the broadest net, so they go last
 **Test: does `"devil's ivy"` return the pothos entry?**
 ```
 [yes / no — if no, describe what happened]
+Yes
 ```
 
 **Test: does `"SNAKE PLANT"` return the snake plant entry?**
 ```
 [yes / no — if no, describe what happened]
+YES
 ```
 
 **One edge case you discovered while implementing:**
 ```
 [your answer here]
+None
 ```
 
 ---
@@ -191,4 +221,5 @@ Returned season: [season]
 **Test: does calling with `season="winter"` return winter data regardless of the current month?**
 ```
 [yes / no]
+no
 ```
